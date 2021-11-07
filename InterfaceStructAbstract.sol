@@ -38,7 +38,7 @@ pragma AbiHeader pubkey;
     }
     //Интерфейсы: "Список покупок"
     interface IShopList {
-      function addPurchase(string nameP, uint32 quantityP) external;
+      function createPurchase(string nameP, uint32 quantityP) external;
       function updatePurchase(uint32 id, uint32 price) external;
       function deletePurchase(uint32 id) external;
       function getPurchases() external returns (Purchase[] purchasess);

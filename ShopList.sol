@@ -49,7 +49,7 @@ contract ShopList {
         m_ownerPubkey = pubkey;
     }
     //- добавление покупки в список (параметры: название продукта, количество)
-    function addPurchase(string nameP, uint32 quantityP) public onlyOwner{
+    function createPurchase(string nameP, uint32 quantityP) public onlyOwner{
          tvm.accept();
          m_count++;
          m_purchase[m_count] = Purchase(m_count, nameP, quantityP, now, false, 0);
