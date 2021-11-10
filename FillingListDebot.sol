@@ -17,7 +17,7 @@ contract FillingListDebot is ShopListDebot {
             ),
             sep,
             [
-                //MenuItem("Create new purchase","",tvm.functionId(createPurchase)),
+              
                 MenuItem("Show purchase list","",tvm.functionId(showPurchases)),
                 MenuItem("Update purchase status","",tvm.functionId(updatePurchase)),
                 MenuItem("Delete purchase","",tvm.functionId(deletePurchase))
@@ -25,20 +25,6 @@ contract FillingListDebot is ShopListDebot {
         );
     }
 
-    
-    function createPurchase_(string value, uint32 quantity) public view override {
-        optional(uint256) pubkey = 0;
-        IShopList(m_address).createPurchase{
-                abiVer: 2,
-                extMsg: true,
-                sign: true,
-                pubkey: pubkey,
-                time: uint64(now),
-                expire: 0,
-                callbackId: tvm.functionId(onSuccess),
-                onErrorId: tvm.functionId(onError)
-            }(value, quantity);
-    }
 
     function showPurchases_( Purchase[] purchases ) public override {
         uint32 i;
@@ -74,7 +60,24 @@ contract FillingListDebot is ShopListDebot {
                 onErrorId: tvm.functionId(onError)
             }(uint32(num));
     }
-    function updatePurchase__(uint32 value) public view override {
+
+     function updatePurchase(uint32 index) public {
+        index = index;
+        if (m_sumPurchase.paidFor + m_sumPurchase.unpaidt > 0) {
+            Terminal.input(tvm.functionId(updatePurchase_), "Enter purchase number:", false);
+        } else {
+            Terminal.print(0, "Sorry, you have no purchases to update");
+            _menu();
+        }
+    }
+
+    function updatePurchase_(string value) public {
+        (uint256 num,) = stoi(value);
+        m_purchaseId = uint32(num);
+        ConfirmInput.get(tvm.functionId(updatePurchase__),"Is this purchase completed?");
+    }
+
+    function updatePurchase__(uint32 value) public {
         optional(uint256) pubkey = 0;
         IShopList(m_address).updatePurchase{
                 abiVer: 2,
@@ -87,5 +90,8 @@ contract FillingListDebot is ShopListDebot {
                 onErrorId: tvm.functionId(onError)
             }(m_purchaseId, value);
     }
+    
+
+   
 
 }

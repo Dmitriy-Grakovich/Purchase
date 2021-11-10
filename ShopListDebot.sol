@@ -23,6 +23,7 @@ abstract contract ShopListDebot is Debot, Upgradable {
     uint32 m_purchaseId;    // Purchase id for update. I didn't find a way to make this var local
     uint256 m_masterPubKey; // User pubkey
     address m_msigAddress;  // User wallet address
+    
 
     uint32 INITIAL_BALANCE =  200000000;  // Initial ShopList contract balance
 
@@ -177,12 +178,7 @@ abstract contract ShopListDebot is Debot, Upgradable {
 
     function _menu() public virtual;
 
-    function createPurchase(uint32 index)  public{  index = index;
-        Terminal.input(tvm.functionId(createPurchase_), "One line please:", false);
-        }
-
-    function createPurchase_(string value, uint32 quantity) virtual public view;
-
+   
     function showPurchases(uint32 index) public view {
         index = index;
         optional(uint256) none;
@@ -200,23 +196,7 @@ abstract contract ShopListDebot is Debot, Upgradable {
 
     function showPurchases_( Purchase[] purchases ) public virtual;
 
-    function updatePurchase(uint32 index) public {
-        index = index;
-        if (m_sumPurchase.paidFor + m_sumPurchase.unpaidt > 0) {
-            Terminal.input(tvm.functionId(updatePurchase_), "Enter purchase number:", false);
-        } else {
-            Terminal.print(0, "Sorry, you have no purchases to update");
-            _menu();
-        }
-    }
-
-    function updatePurchase_(string value) public {
-        (uint256 num,) = stoi(value);
-        m_purchaseId = uint32(num);
-        ConfirmInput.get(tvm.functionId(updatePurchase__),"Is this purchase completed?");
-    }
-
-    function updatePurchase__(uint32 value) public view virtual;
+   
 
 
     function deletePurchase(uint32 index) public {

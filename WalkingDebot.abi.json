@@ -10,6 +10,30 @@
 			]
 		},
 		{
+			"name": "createPurchase",
+			"inputs": [
+				{"name":"index","type":"uint32"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "createPurchase_",
+			"inputs": [
+				{"name":"value","type":"bytes"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "createPurchase__",
+			"inputs": [
+				{"name":"value","type":"bytes"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "showPurchases_",
 			"inputs": [
 				{"components":[{"name":"id","type":"uint32"},{"name":"name","type":"bytes"},{"name":"quantity","type":"uint32"},{"name":"timestamp","type":"uint32"},{"name":"isDone","type":"bool"},{"name":"price","type":"uint32"}],"name":"purchases","type":"tuple[]"}
@@ -21,23 +45,6 @@
 			"name": "deletePurchase_",
 			"inputs": [
 				{"name":"value","type":"bytes"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "createPurchase_",
-			"inputs": [
-				{"name":"value","type":"bytes"},
-				{"name":"quantity","type":"uint32"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "updatePurchase__",
-			"inputs": [
-				{"name":"value","type":"uint32"}
 			],
 			"outputs": [
 			]
@@ -166,33 +173,9 @@
 			]
 		},
 		{
-			"name": "createPurchase",
-			"inputs": [
-				{"name":"index","type":"uint32"}
-			],
-			"outputs": [
-			]
-		},
-		{
 			"name": "showPurchases",
 			"inputs": [
 				{"name":"index","type":"uint32"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "updatePurchase",
-			"inputs": [
-				{"name":"index","type":"uint32"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "updatePurchase_",
-			"inputs": [
-				{"name":"value","type":"bytes"}
 			],
 			"outputs": [
 			]

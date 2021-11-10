@@ -5,6 +5,8 @@ pragma AbiHeader pubkey;
 import 'ShopListDebot.sol';
 
 contract WalkingDebot is ShopListDebot {
+    
+    string purchaseName;
 
     function _menu() public override{
         string sep = '----------------------------------------';
@@ -18,13 +20,40 @@ contract WalkingDebot is ShopListDebot {
             sep,
             [
                 MenuItem("Create new purchase","",tvm.functionId(createPurchase)),
+
                 MenuItem("Show purchase list","",tvm.functionId(showPurchases)),
-               // MenuItem("Update purchase status","",tvm.functionId(updatePurchase)),
+             
                 MenuItem("Delete purchase","",tvm.functionId(deletePurchase))
             ]
         );
     }
+     function createPurchase(uint32 index)  public{  index = index;
+       
+        Terminal.input(tvm.functionId(createPurchase_), "One line please:", false);
+        }
+    
+    function createPurchase_(string value)  public {
+        purchaseName = value;
+        Terminal.input(tvm.functionId(createPurchase__), "quantity please", false);
+    }
 
+    function createPurchase__(string value) public {
+        (uint quantity, bool status) = stoi(value);
+        if(status){
+            IShopList(m_address).createPurchase{
+                abiVer: 2,
+                extMsg: true,
+                sign: true,
+                pubkey: 0,
+                time: uint64(now),
+                expire: 0,
+                callbackId: tvm.functionId(onSuccess),
+                onErrorId: tvm.functionId(onError)
+            }(purchaseName, uint32(quantity));
+        }
+    }
+
+    
     function showPurchases_( Purchase[] purchases ) public override {
         uint32 i;
         if (purchases.length > 0 ) {
@@ -58,32 +87,6 @@ contract WalkingDebot is ShopListDebot {
                 callbackId: tvm.functionId(onSuccess),
                 onErrorId: tvm.functionId(onError)
             }(uint32(num));
-    }
-     function createPurchase_(string value, uint32 quantity) public view override {
-        optional(uint256) pubkey = 0;
-        IShopList(m_address).createPurchase{
-                abiVer: 2,
-                extMsg: true,
-                sign: true,
-                pubkey: pubkey,
-                time: uint64(now),
-                expire: 0,
-                callbackId: tvm.functionId(onSuccess),
-                onErrorId: tvm.functionId(onError)
-            }(value, quantity);
-    }
-    function updatePurchase__(uint32 value) public view override{
-        optional(uint256) pubkey = 0;
-        IShopList(m_address).updatePurchase{
-                abiVer: 2,
-                extMsg: true,
-                sign: true,
-                pubkey: pubkey,
-                time: uint64(now),
-                expire: 0,
-                callbackId: tvm.functionId(onSuccess),
-                onErrorId: tvm.functionId(onError)
-            }(m_purchaseId, value);
     }
 
 }
